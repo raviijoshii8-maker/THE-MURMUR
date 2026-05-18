@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="murmur">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>THE MURMUR · Echo Chamber · Spectral Threads</title>
+  <!-- Typography: airy serif + whisper grotesk -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* PRIMARY THEME: MURMUR — light linen, dust motes, porcelain & echo */
+    :root[data-theme="murmur"] {
+      --bg: #f8f5f0;
+      --surface: #ffffff;
+      --surface-elevated: #fefaf5;
+      --text: #2c2a28;
+      --text-soft: #7a7368;
+      --text-muted: #d6cec1;
+      --accent: #c28b6e;
+      --accent-glow: #e2bc9e;
+      --accent-deep: #a26e52;
+      --accent-subtle: #f3ede7;
+      --border-light: #e2d9cf;
+      --shadow-sm: 0 12px 28px -10px rgba(0,0,0,0.06);
+      --shadow-lg: 0 25px 40px -14px rgba(0,0,0,0.12);
+      --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --radius-card: 32px 8px 32px 8px;
+      --grid-gap: 2rem;
+      --font-display: 'Cormorant Garamond', serif;
+    }
+
+    /* second theme: "echo" — deeper twilight, velvet & hush */
+    :root[data-theme="echo"] {
+      --bg: #1a1c1e;
+      --surface: #25282c;
+      --surface-elevated: #2f3338;
+      --text: #ece9e2;
+      --text-soft: #b2aa9b;
+      --text-muted: #5f5b54;
+      --accent: #c9a07e;
+      --accent-glow: #e6c9ae;
+      --accent-deep: #9c765a;
+      --accent-subtle: #3a322c;
+      --border-light: #4a4540;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+      font-weight: 400;
+      line-height: 1.45;
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--surface);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 12px;
+    }
+
+    /* header — murmur veil */
+    .murmur-header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      background: rgba(248, 245, 240, 0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+    [data-theme="echo"] .murmur-header {
+      background: rgba(26, 28, 30, 0.92);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav-murmur {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0.8rem 2.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .brand-murmur {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      color: var(--accent);
+      font-style: italic;
+      border-right: 2px solid var(--accent-glow);
+      padding-right: 20px;
+    }
+    .brand-murmur small {
+      font-size: 0.48rem;
+      font-weight: 300;
+      letter-spacing: 3px;
+      margin-left: 10px;
+      font-style: normal;
+      color: var(--text-soft);
+      font-family: monospace;
+    }
+
+    .nav-murmur-links {
+      display: flex;
+      gap: 2.2rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 500;
+      letter-spacing: 2px;
+    }
+    .nav-murmur-links a {
+      color: var(--text-soft);
+      text-decoration: none;
+      transition: 0.2s;
+      font-family: monospace;
+    }
+    .nav-murmur-links a:hover {
+      color: var(--accent);
+      letter-spacing: 2.5px;
+    }
+
+    .murmur-utils {
+      display: flex;
+      gap: 1.6rem;
+      align-items: center;
+    }
+    #themeToggleMurmur {
+      background: var(--accent-subtle);
+      border: 1px solid var(--border-light);
+      padding: 5px 12px;
+      font-size: 0.6rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text);
+      font-family: monospace;
+      border-radius: 100px;
+      transition: 0.2s;
+    }
+    .murmur-cart {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      color: var(--accent);
+    }
+    .cart-count-murmur {
+      background: var(--accent);
+      color: var(--bg);
+      font-size: 0.5rem;
+      font-weight: 800;
+      border-radius: 40px;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -8px;
+      right: -14px;
+    }
+
+    /* hero — echo chamber */
+    .hero-murmur {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover;
+      background-position: 50% 40%;
+    }
+    .hero-murmur::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, rgba(248,245,240,0.88) 0%, rgba(248,245,240,0.4) 100%);
+      z-index: 1;
+    }
+    [data-theme="echo"] .hero-murmur::after {
+      background: linear-gradient(105deg, rgba(26,28,30,0.85) 0%, rgba(26,28,30,0.5) 100%);
+    }
+    .hero-murmur-content {
+      position: relative;
+      z-index: 2;
+      max-width: 580px;
+      padding: 0 7%;
+    }
+    .hero-murmur-badge {
+      font-size: 0.55rem;
+      letter-spacing: 6px;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: var(--accent-deep);
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+      font-family: monospace;
+    }
+    .hero-murmur-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 12vw, 5.8rem);
+      font-weight: 500;
+      line-height: 0.95;
+      margin-bottom: 0.8rem;
+      color: var(--text);
+      letter-spacing: -1px;
+      font-style: italic;
+    }
+    .hero-murmur-offer {
+      font-size: 0.6rem;
+      font-weight: 400;
+      margin-bottom: 2.2rem;
+      background: rgba(194, 139, 110, 0.1);
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      backdrop-filter: blur(4px);
+      font-family: monospace;
+      border-radius: 60px;
+      color: var(--accent-deep);
+      border: 0.5px solid var(--accent-glow);
+    }
+
+    .btn-murmur {
+      background: var(--accent);
+      border: none;
+      padding: 0.85rem 2.4rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-block;
+      text-decoration: none;
+      color: #fffbf5;
+      font-family: monospace;
+      border-radius: 40px 8px 40px 8px;
+    }
+    .btn-murmur:hover {
+      background: var(--accent-deep);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 22px rgba(194, 139, 110, 0.25);
+      border-radius: 8px 40px 8px 40px;
+    }
+
+    /* collection header — whisper registry */
+    .murmur-collection {
+      max-width: 1440px;
+      margin: 3rem auto 0.5rem auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      border-bottom: 1px dashed var(--accent-glow);
+      padding-bottom: 0.8rem;
+    }
+    .murmur-collection h2 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 500;
+      font-style: italic;
+    }
+    .murmur-collection p {
+      color: var(--accent);
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      font-family: monospace;
+    }
+
+    /* product grid — spectral threads */
+    .grid-murmur {
+      max-width: 1440px;
+      margin: 2rem auto 5rem auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--grid-gap);
+    }
+
+    .murmur-card {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+    }
+    .murmur-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-glow);
+      box-shadow: var(--shadow-lg);
+    }
+    .murmur-media {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: var(--surface-elevated);
+      filter: brightness(0.98) contrast(1.02);
+    }
+    .murmur-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .murmur-card:hover .murmur-media img {
+      transform: scale(1.02);
+    }
+    .murmur-quick {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      padding: 0.8rem;
+      opacity: 0;
+      transition: 0.2s;
+      text-align: center;
+    }
+    [data-theme="echo"] .murmur-quick {
+      background: rgba(37, 40, 44, 0.96);
+    }
+    .murmur-card:hover .murmur-quick {
+      opacity: 1;
+    }
+    .murmur-quick button {
+      background: var(--accent);
+      border: none;
+      width: 85%;
+      padding: 0.6rem;
+      font-size: 0.55rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #ffffff;
+      font-family: monospace;
+      border-radius: 100px;
+    }
+    .murmur-quick button:hover {
+      background: var(--accent-deep);
+      color: white;
+    }
+
+    .murmur-info {
+      padding: 1rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .murmur-detail h4 {
+      font-size: 0.5rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+    .murmur-detail h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 500;
+      margin-top: 4px;
+      font-style: italic;
+    }
+    .murmur-price {
+      text-align: right;
+    }
+    .murmur-current {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--accent-deep);
+    }
+    .murmur-old {
+      font-size: 0.65rem;
+      text-decoration: line-through;
+      color: var(--text-muted);
+      margin-left: 0.3rem;
+    }
+
+    /* cart — echo coffer */
+    .cart-overlay-murmur {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(24px);
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.25s;
+    }
+    .cart-overlay-murmur.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .cart-murmur-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 540px;
+      height: 100vh;
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      box-shadow: var(--shadow-lg);
+      z-index: 2001;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-overlay-murmur.active .cart-murmur-panel {
+      transform: translateX(0);
+    }
+    .cart-murmur-header {
+      padding: 1.4rem;
+      border-bottom: 1px solid var(--accent-glow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-murmur-header h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--accent);
+      font-style: italic;
+    }
+    .close-murmur-cart {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-soft);
+    }
+    .cart-murmur-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .murmur-cart-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.8rem;
+      background: var(--surface-elevated);
+      border-left: 3px solid var(--accent-glow);
+      position: relative;
+      border-radius: 20px;
+    }
+    .murmur-cart-img {
+      width: 70px;
+      height: 85px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .murmur-cart-details {
+      flex: 1;
+    }
+    .murmur-cart-name {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .murmur-cart-price {
+      font-size: 0.7rem;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .murmur-cart-qty {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .murmur-qty-btn {
+      background: var(--accent-subtle);
+      border: none;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--text);
+      font-family: monospace;
+      border-radius: 30px;
+    }
+    .murmur-qty-btn:hover {
+      background: var(--accent);
+      color: white;
+    }
+    .murmur-remove {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .cart-murmur-footer {
+      padding: 1.5rem;
+      border-top: 2px solid var(--accent-glow);
+      background: var(--surface);
+    }
+    .murmur-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      font-family: monospace;
+    }
+    .murmur-checkout {
+      width: 100%;
+      background: var(--accent);
+      border: none;
+      padding: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #fff5ef;
+      font-family: monospace;
+      border-radius: 60px 8px 60px 8px;
+    }
+    .murmur-checkout:hover {
+      background: var(--accent-deep);
+      transform: scale(0.98);
+    }
+    .empty-murmur-cart {
+      text-align: center;
+      color: var(--text-soft);
+      padding: 2rem;
+      font-size: 0.7rem;
+      font-family: monospace;
+    }
+
+    footer {
+      background: var(--surface-elevated);
+      margin-top: 2rem;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--accent-glow);
+    }
+    .footer-murmur {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .footer-murmur-brand {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--accent);
+      font-style: italic;
+    }
+    .footer-murmur-regions {
+      font-size: 0.5rem;
+      letter-spacing: 3px;
+      color: var(--text-soft);
+      margin: 0.6rem 0 1rem;
+      font-family: monospace;
+    }
+
+    /* modal — murmur invitation */
+    .modal-murmur {
+      position: fixed;
+      inset: 0;
+      z-index: 2200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(28px);
+      transition: opacity 0.25s;
+    }
+    .modal-murmur-block {
+      background: var(--surface);
+      max-width: 520px;
+      width: 100%;
+      border-bottom: 4px solid var(--accent);
+      padding: 2rem 2rem 2.2rem;
+      position: relative;
+      text-align: center;
+      box-shadow: 0 30px 40px rgba(0,0,0,0.2);
+      border-radius: 48px 12px 48px 12px;
+    }
+    .modal-murmur-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .modal-murmur-icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(194, 139, 110, 0.12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 80px;
+    }
+    .modal-murmur-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--accent);
+      font-style: italic;
+    }
+    .modal-murmur-desc {
+      color: var(--text-soft);
+      line-height: 1.5;
+      font-size: 0.85rem;
+      margin: 0.8rem 0;
+    }
+    .modal-murmur-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+    .btn-murmur-primary {
+      background: var(--accent);
+      border: none;
+      padding: 0.7rem 2rem;
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      color: white;
+      font-family: monospace;
+      border-radius: 40px 8px 40px 8px;
+    }
+    .btn-murmur-secondary {
+      background: transparent;
+      border: 1px solid var(--accent);
+      padding: 0.7rem 1.8rem;
+      font-weight: 500;
+      font-size: 0.7rem;
+      cursor: pointer;
+      color: var(--text);
+      font-family: monospace;
+      border-radius: 8px 40px 8px 40px;
+    }
+    .modal-fade-murmur {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      display: none;
+    }
+
+    @media (max-width: 780px) {
+      .nav-murmur { flex-direction: column; gap: 0.6rem; }
+      .grid-murmur { gap: 1rem; }
+    }
+  </style>
+
+<!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBJZ7C7VV0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SBJZ7C7VV0');
+  </script>
+  
+</head>
+<body>
+
+<!-- entry modal: MURMUR invitation -->
+<div id="entryModalMurmur" class="modal-murmur">
+  <div class="modal-murmur-block">
+    <button id="closeMurmurModal" class="modal-murmur-close"><i class="fas fa-feather-alt"></i></button>
+    <div class="modal-murmur-icon"><i class="fas fa-microphone-alt"></i></div>
+    <h2 class="modal-murmur-title">THE MURMUR</h2>
+    <p class="modal-murmur-desc">Echo chamber · spectral threads · forgotten frequencies. Garments woven from half-remembered songs and dust-light. Enter the hush.</p>
+    <div class="modal-murmur-buttons">
+      <button id="enterMurmurBtn" class="btn-murmur-primary">🎧 ENTER THE ECHO</button>
+      <button id="laterMurmurBtn" class="btn-murmur-secondary">STAY IN SILENCE</button>
+    </div>
+  </div>
+</div>
+
+<header class="murmur-header">
+  <div class="nav-murmur">
+    <div class="brand-murmur">THE MURMUR<small>· ECHO CHAMBER</small></div>
+    <nav class="nav-murmur-links">
+      <a href="#shopMurmur">SPECTRAL INDEX</a>
+      <a href="#shopMurmur">FREQUENCY LAYER</a>
+      <a href="#shopMurmur">DUST REGISTER</a>
+      <a href="#">HUSH VAULT</a>
+    </nav>
+    <div class="murmur-utils">
+      <button id="themeToggleMurmur">🌙 ECHO MODE</button>
+      <div class="murmur-cart" id="cartIconMurmur">
+        <i class="fas fa-ear-listen"></i>
+        <span class="cart-count-murmur" id="cartCountMurmur">0</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero-murmur">
+    <div class="hero-murmur-content">
+      <div class="hero-murmur-badge">ECHO CHAMBER · SPECTRAL THREADS · FORGOTTEN FREQUENCIES</div>
+      <h1 class="hero-murmur-title">THE MURMUR</h1>
+      <div class="hero-murmur-offer">first whisper: <strong>15% off</strong> your first spectral garment</div>
+      <a href="#shopMurmur" class="btn-murmur">LISTEN TO THE ECHO →</a>
+    </div>
+  </section>
+
+  <div class="murmur-collection" id="shopMurmur">
+    <h2>Spectral Registry · Echo Chamber Relics & Hush Silks</h2>
+    <p>12 resonant pieces</p>
+  </div>
+
+  <div class="grid-murmur" id="productGridMurmur"></div>
+</main>
+
+<footer>
+  <div class="footer-murmur">
+    <div class="footer-murmur-brand">THE MURMUR</div>
+    <div class="footer-murmur-regions">ECHO CHAMBER · SPECTRAL LAYER · HUSH RESERVE</div>
+    <p style="font-size:0.55rem; opacity:0.7;">© 2026 THE MURMUR — garments from half-remembered songs & dust-light.</p>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div id="cartOverlayMurmur" class="cart-overlay-murmur">
+  <div class="cart-murmur-panel">
+    <div class="cart-murmur-header">
+      <h3>🎧 HUSH COFFER</h3>
+      <button class="close-murmur-cart" id="closeCartMurmur"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-murmur-items" id="cartItemsMurmur">
+      <div class="empty-murmur-cart">Coffer is silent.<br>Summon echoes from the spectral registry.</div>
+    </div>
+    <div class="cart-murmur-footer" id="cartFooterMurmur" style="display: none;">
+      <div class="murmur-total"><span>Total (USD)</span><span id="cartTotalMurmur">$0</span></div>
+      <button class="murmur-checkout" id="checkoutMurmurBtn">🎙️ SEAL THE ECHO</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // MURMUR product catalog — same base but renamed for distinct identity
+  const murmurProducts = [
+    { id: 9901, name: "Fossil Voile", category: "SPECTRAL", original: 899, price: 764, img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=687&auto=format&fit=crop", alt: "fossil voile" },
+    { id: 9902, name: "Salt Echo", category: "FREQUENCY", original: 348, price: 295, img: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=687&auto=format&fit=crop", alt: "salt echo" },
+    { id: 9903, name: "Sediment Hum", category: "DUST", original: 595, price: 505, img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=715&auto=format&fit=crop", alt: "sediment hum" },
+    { id: 9904, name: "Tide Whisper Pants", category: "BOTTOMS", original: 480, price: 408, img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=600&auto=format&fit=crop", alt: "whisper pants" },
+    { id: 9905, name: "Murmur Duster", category: "OUTER", original: 890, price: 756, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=600&auto=format&fit=crop", alt: "murmur duster" },
+    { id: 9906, name: "Echo Vest", category: "VEST", original: 435, price: 369, img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=687&auto=format&fit=crop", alt: "echo vest" },
+    { id: 9907, name: "Depth Resonance", category: "SMOCK", original: 1090, price: 926, img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=687&auto=format&fit=crop", alt: "depth resonance" },
+    { id: 9908, name: "Archive Of Hush", category: "COAT", original: 1455, price: 1236, img: "https://images.unsplash.com/photo-1598032895397-b9472444bf93?q=80&w=2070&auto=format&fit=crop", alt: "hush coat" },
+    { id: 9909, name: "Dust Cargo", category: "BOTTOMS", original: 565, price: 480, img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600&auto=format&fit=crop", alt: "dust cargo" },
+    { id: 9910, name: "Spectral Hood", category: "HOODIE", original: 370, price: 314, img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=764&auto=format&fit=crop", alt: "spectral hood" },
+    { id: 9911, name: "Mariana Echo", category: "OUTER", original: 1870, price: 1589, img: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=688&auto=format&fit=crop", alt: "mariana echo" },
+    { id: 9912, name: "Brine Frequency", category: "SHIRT", original: 675, price: 573, img: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=687&auto=format&fit=crop", alt: "brine frequency" }
+  ];
+
+  let cartMurmur = [];
+  const cartOverlayMurmurDiv = document.getElementById('cartOverlayMurmur');
+  const cartMurmurIcon = document.getElementById('cartIconMurmur');
+  const closeCartMurmurBtn = document.getElementById('closeCartMurmur');
+  const cartMurmurContainer = document.getElementById('cartItemsMurmur');
+  const cartMurmurFooter = document.getElementById('cartFooterMurmur');
+  const cartMurmurTotalSpan = document.getElementById('cartTotalMurmur');
+  const cartMurmurCountSpan = document.getElementById('cartCountMurmur');
+
+  function persistMurmurCart() { localStorage.setItem('MURMUR_ECHO_CART', JSON.stringify(cartMurmur)); }
+  function loadMurmurCart() {
+    const saved = localStorage.getItem('MURMUR_ECHO_CART');
+    if (saved) cartMurmur = JSON.parse(saved);
+    renderMurmurCart();
+    updateMurmurCount();
+  }
+  function updateMurmurCount() { cartMurmurCountSpan.innerText = cartMurmur.reduce((sum,i)=>sum+i.qty,0); }
+
+  function renderMurmurCart() {
+    if (!cartMurmurContainer) return;
+    if (cartMurmur.length === 0) {
+      cartMurmurContainer.innerHTML = '<div class="empty-murmur-cart">Coffer is silent.<br>Summon echoes from the spectral registry.</div>';
+      cartMurmurFooter.style.display = 'none';
+      updateMurmurCount(); persistMurmurCart(); return;
+    }
+    cartMurmurFooter.style.display = 'block';
+    let html = ''; let total = 0;
+    cartMurmur.forEach(item => {
+      total += item.price * item.qty;
+      html += `<div class="murmur-cart-item" data-id="${item.id}">
+          <img class="murmur-cart-img" src="${item.img}" alt="${item.name}">
+          <div class="murmur-cart-details">
+            <div class="murmur-cart-name">${item.name}</div>
+            <div class="murmur-cart-price">$${item.price.toLocaleString()}</div>
+            <div class="murmur-cart-qty">
+              <button class="murmur-qty-dec" data-id="${item.id}">−</button>
+              <span>${item.qty}</span>
+              <button class="murmur-qty-inc" data-id="${item.id}">+</button>
+            </div>
+          </div>
+          <button class="murmur-remove" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
+        </div>`;
+    });
+    cartMurmurContainer.innerHTML = html;
+    cartMurmurTotalSpan.innerText = `$${total.toLocaleString()}`;
+    document.querySelectorAll('.murmur-qty-dec').forEach(btn => btn.addEventListener('click', () => updateMurmurQty(parseInt(btn.dataset.id), -1)));
+    document.querySelectorAll('.murmur-qty-inc').forEach(btn => btn.addEventListener('click', () => updateMurmurQty(parseInt(btn.dataset.id), 1)));
+    document.querySelectorAll('.murmur-remove').forEach(btn => btn.addEventListener('click', () => removeMurmurItem(parseInt(btn.dataset.id))));
+    updateMurmurCount(); persistMurmurCart();
+  }
+  function updateMurmurQty(pid, delta) {
+    const idx = cartMurmur.findIndex(i=>i.id===pid);
+    if(idx !== -1){
+      const nq = cartMurmur[idx].qty + delta;
+      if(nq <= 0) cartMurmur.splice(idx,1);
+      else cartMurmur[idx].qty = nq;
+      renderMurmurCart();
+    }
+  }
+  function removeMurmurItem(pid){ cartMurmur = cartMurmur.filter(i=>i.id!==pid); renderMurmurCart(); }
+  function addToMurmurCart(pid){
+    const prod = murmurProducts.find(p=>p.id===pid);
+    if(!prod) return;
+    const existing = cartMurmur.find(i=>i.id===pid);
+    if(existing) existing.qty += 1;
+    else cartMurmur.push({id:prod.id, name:prod.name, price:prod.price, qty:1, img:prod.img});
+    renderMurmurCart();
+    const btn = document.querySelector(`.murmur-add-${pid}`);
+    if(btn){ let old = btn.innerText; btn.innerText="🎙️ ECHO REGISTERED"; setTimeout(()=>btn.innerText=old,700); }
+    cartOverlayMurmurDiv.classList.add('active');
+  }
+
+  function renderMurmurProducts() {
+    const container = document.getElementById('productGridMurmur');
+    if(!container) return;
+    container.innerHTML = '';
+    murmurProducts.forEach(p => {
+      const disc = Math.round(((p.original-p.price)/p.original)*100);
+      const card = document.createElement('div');
+      card.className = 'murmur-card';
+      card.innerHTML = `
+        <div class="murmur-media">
+          <img src="${p.img}" alt="${p.alt||p.name}" loading="lazy">
+          <div class="murmur-quick"><button class="murmur-add-${p.id} add-murmur-btn" data-id="${p.id}">🎧 SUMMON ECHO</button></div>
+        </div>
+        <div class="murmur-info">
+          <div class="murmur-detail"><h4>${p.category}</h4><h3>${p.name}</h3></div>
+          <div class="murmur-price"><span class="murmur-current">$${p.price.toLocaleString()}</span><span class="murmur-old">$${p.original.toLocaleString()}</span><span style="font-size:0.55rem;color:var(--accent);display:block;text-align:right;">-${disc}%</span></div>
+        </div>`;
+      container.appendChild(card);
+    });
+    document.querySelectorAll('.add-murmur-btn').forEach(btn => btn.addEventListener('click', (e)=>{ e.preventDefault(); addToMurmurCart(parseInt(btn.dataset.id)); }));
+  }
+
+  function initThemeMurmur() {
+    const stored = localStorage.getItem('MURMUR_THEME');
+    let theme = stored || 'murmur';
+    document.documentElement.setAttribute('data-theme', theme);
+    const toggle = document.getElementById('themeToggleMurmur');
+    if(toggle) toggle.textContent = theme === 'murmur' ? '🌙 ECHO MODE' : '☁️ MURMUR MODE';
+  }
+  function toggleThemeMurmur() {
+    const curr = document.documentElement.getAttribute('data-theme');
+    const next = curr === 'murmur' ? 'echo' : 'murmur';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('MURMUR_THEME', next);
+    const toggleBtn = document.getElementById('themeToggleMurmur');
+    if(toggleBtn) toggleBtn.textContent = next === 'murmur' ? '🌙 ECHO MODE' : '☁️ MURMUR MODE';
+  }
+
+  // modal logic
+  const modalMurmurElem = document.getElementById('entryModalMurmur');
+  const enterMurmur = document.getElementById('enterMurmurBtn'), laterMurmur = document.getElementById('laterMurmurBtn'), closeMurmurModalBtn = document.getElementById('closeMurmurModal');
+  function closeMurmurModalFunc() {
+    if(modalMurmurElem){
+      modalMurmurElem.classList.add('modal-fade-murmur');
+      setTimeout(()=>modalMurmurElem.style.display='none',200);
+    }
+  }
+  if(enterMurmur) enterMurmur.addEventListener('click', closeMurmurModalFunc);
+  if(laterMurmur) laterMurmur.addEventListener('click', closeMurmurModalFunc);
+  if(closeMurmurModalBtn) closeMurmurModalBtn.addEventListener('click', closeMurmurModalFunc);
+  if(modalMurmurElem) modalMurmurElem.addEventListener('click',(e)=>{ if(e.target===modalMurmurElem) closeMurmurModalFunc(); });
+
+  cartMurmurIcon?.addEventListener('click',()=>cartOverlayMurmurDiv.classList.add('active'));
+  closeCartMurmurBtn?.addEventListener('click',()=>cartOverlayMurmurDiv.classList.remove('active'));
+  cartOverlayMurmurDiv?.addEventListener('click',(e)=>{ if(e.target===cartOverlayMurmurDiv) cartOverlayMurmurDiv.classList.remove('active'); });
+  document.getElementById('checkoutMurmurBtn')?.addEventListener('click',()=>{ alert('THE MURMUR seals your echo registry. Spectral threads bound in half-remembered frequencies.'); cartMurmur=[]; renderMurmurCart(); cartOverlayMurmurDiv.classList.remove('active'); });
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',function(e){ const hash=this.getAttribute('href'); if(hash==="#") return; const sec=document.querySelector(hash); if(sec){ e.preventDefault(); sec.scrollIntoView({behavior:'smooth'}); } }); });
+
+  renderMurmurProducts();
+  initThemeMurmur();
+  loadMurmurCart();
+  document.getElementById('themeToggleMurmur')?.addEventListener('click', toggleThemeMurmur);
+</script>
+</body>
+</html>
