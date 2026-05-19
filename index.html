@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>THE MURMUR · Echo Chamber · Spectral Threads</title>
+  <title> ANILET · Echo Chamber · Spectral Threads</title>
   <!-- Typography: airy serif + whisper grotesk -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -704,7 +704,7 @@
   <div class="modal-murmur-block">
     <button id="closeMurmurModal" class="modal-murmur-close"><i class="fas fa-feather-alt"></i></button>
     <div class="modal-murmur-icon"><i class="fas fa-microphone-alt"></i></div>
-    <h2 class="modal-murmur-title">THE MURMUR</h2>
+    <h2 class="modal-murmur-title"> ANILET</h2>
     <p class="modal-murmur-desc">Echo chamber · spectral threads · forgotten frequencies. Garments woven from half-remembered songs and dust-light. Enter the hush.</p>
     <div class="modal-murmur-buttons">
       <button id="enterMurmurBtn" class="btn-murmur-primary">🎧 ENTER THE ECHO</button>
@@ -715,7 +715,7 @@
 
 <header class="murmur-header">
   <div class="nav-murmur">
-    <div class="brand-murmur">THE MURMUR<small>· ECHO CHAMBER</small></div>
+    <div class="brand-murmur"> ANILET<small>· ECHO CHAMBER</small></div>
     <nav class="nav-murmur-links">
       <a href="#shopMurmur">SPECTRAL INDEX</a>
       <a href="#shopMurmur">FREQUENCY LAYER</a>
@@ -736,7 +736,7 @@
   <section class="hero-murmur">
     <div class="hero-murmur-content">
       <div class="hero-murmur-badge">ECHO CHAMBER · SPECTRAL THREADS · FORGOTTEN FREQUENCIES</div>
-      <h1 class="hero-murmur-title">THE MURMUR</h1>
+      <h1 class="hero-murmur-title"> ANILET</h1>
       <div class="hero-murmur-offer">first whisper: <strong>15% off</strong> your first spectral garment</div>
       <a href="#shopMurmur" class="btn-murmur">LISTEN TO THE ECHO →</a>
     </div>
@@ -752,9 +752,9 @@
 
 <footer>
   <div class="footer-murmur">
-    <div class="footer-murmur-brand">THE MURMUR</div>
+    <div class="footer-murmur-brand"> ANILET</div>
     <div class="footer-murmur-regions">ECHO CHAMBER · SPECTRAL LAYER · HUSH RESERVE</div>
-    <p style="font-size:0.55rem; opacity:0.7;">© 2026 THE MURMUR — garments from half-remembered songs & dust-light.</p>
+    <p style="font-size:0.55rem; opacity:0.7;">© 2026  ANILET — garments from half-remembered songs & dust-light.</p>
   </div>
 </footer>
 
@@ -919,7 +919,7 @@
   cartMurmurIcon?.addEventListener('click',()=>cartOverlayMurmurDiv.classList.add('active'));
   closeCartMurmurBtn?.addEventListener('click',()=>cartOverlayMurmurDiv.classList.remove('active'));
   cartOverlayMurmurDiv?.addEventListener('click',(e)=>{ if(e.target===cartOverlayMurmurDiv) cartOverlayMurmurDiv.classList.remove('active'); });
-  document.getElementById('checkoutMurmurBtn')?.addEventListener('click',()=>{ alert('THE MURMUR seals your echo registry. Spectral threads bound in half-remembered frequencies.'); cartMurmur=[]; renderMurmurCart(); cartOverlayMurmurDiv.classList.remove('active'); });
+  document.getElementById('checkoutMurmurBtn')?.addEventListener('click',()=>{ alert(' ANILET seals your echo registry. Spectral threads bound in half-remembered frequencies.'); cartMurmur=[]; renderMurmurCart(); cartOverlayMurmurDiv.classList.remove('active'); });
   document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',function(e){ const hash=this.getAttribute('href'); if(hash==="#") return; const sec=document.querySelector(hash); if(sec){ e.preventDefault(); sec.scrollIntoView({behavior:'smooth'}); } }); });
 
   renderMurmurProducts();
